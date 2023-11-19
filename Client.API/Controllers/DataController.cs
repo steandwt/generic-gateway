@@ -1,7 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Models.Gateway.Client;
-using Models.Gateway.Requests.DataRequests;
+using Models.Gateway.Requests.Calculator;
+using Models.Gateway.Requests.Lookups;
+using Models.Gateway.Responses.Lookups;
+using Models.Gateway.Shared;
 
 namespace Client.API.Controllers
 {
@@ -17,22 +20,29 @@ namespace Client.API.Controllers
         }
 
         [HttpGet]
-        [Route("get-data-from-gateway")]
-        public async Task<IEnumerable<string>> GetDataFromGateway()
+        [Route("get-people-from-gateway")]
+        public async Task<List<GenericKeyValuePair>> GetPeopleFromGateway()
         {
-            return await _client.ExecuteGet<List<string>>(new TestDataGetRequest());
+            return await _client.ExecuteGet<List<GenericKeyValuePair>>(new GetPeopleLookupRequest());
         }
 
-        [HttpPost]
-        [Route("post-data-to-gateway")]
-        public async Task<IEnumerable<string>> PostDataToGateway()
+        [HttpGet]
+        [Route("get-categories")]
+        public async Task<List<CategoryLookup>> GetCategoriesFromGateway()
         {
-            return await _client.ExecutePost<TestPostData, List<string>>(new TestDataPostRequest<TestPostData>()
+            return await _client.ExecuteGet<List<CategoryLookup>>(new GetCategoriesLookupRequest());
+        }
+
+        [HttpGet]
+        [Route("get-calc-addition")]
+        public async Task<int> GetCalculatorAddition()
+        {
+            return await _client.ExecutePost<CalculatorAdditionRequest, int>(new GetCalculatorAdditionaRequest()
             {
-                RequestData = new TestPostData()
+                RequestData = new CalculatorAdditionRequest
                 {
-                    Value1 = "Value 1 from client",
-                    Value2 = "Value 2 from client"
+                    Value1 = 5,
+                    Value2 = 10
                 }
             });
         }
