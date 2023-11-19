@@ -1,10 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Models;
+using Models.Gateway.Constants;
 
 namespace Gateway.API.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
     public class TestDataController : Controller
     {
         
@@ -14,14 +14,14 @@ namespace Gateway.API.Controllers
         }
 
         [HttpGet]
-        [Route("test-get-data")]
+        [Route(DataRequestConstants.getTestDataPath)]
         public IEnumerable<string> TestGet()
         {
             return new[] { "Value 1", "Value 2" };
         }
 
         [HttpPost]
-        [Route("test-post-data")]
+        [Route(DataRequestConstants.postTestDataPath)]
         public IEnumerable<string> TestPost([FromBody] TestPostData data)
         {
             return new[] { data.Value1, data.Value2 };
