@@ -8,6 +8,11 @@ namespace Client.API.Services
     {
         private HttpClient _httpClient; 
 
+        private JsonSerializerOptions _jsonOptions = new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true
+        };
+
         public GatewayClient(IHttpClientFactory clientFactory)
         {
             _httpClient = clientFactory.CreateClient("GatewayHttpClient");   
@@ -18,7 +23,7 @@ namespace Client.API.Services
             var httpResponse = await _httpClient.GetAsync(request.RequestPath);
             var result = await httpResponse.Content.ReadAsStringAsync();
 
-            return JsonSerializer.Deserialize<TResponse>(result);
+            return JsonSerializer.Deserialize<TResponse>(result, _jsonOptions);
         }
 
         public async Task<TResponse> ExecutePost<TRequestData, TResponse>(IPostDataRequest<TRequestData> request)
@@ -28,7 +33,7 @@ namespace Client.API.Services
             var httpResponse = await _httpClient.PostAsync(request.RequestPath, jsonContent);
             var result = await httpResponse.Content.ReadAsStringAsync();
 
-            return JsonSerializer.Deserialize<TResponse>(result);
+            return JsonSerializer.Deserialize<TResponse>(result, _jsonOptions);
         }
     }
 }
