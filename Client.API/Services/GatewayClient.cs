@@ -18,7 +18,7 @@ namespace Client.API.Services
             _httpClient = clientFactory.CreateClient("GatewayHttpClient");   
         }
 
-        public async Task<TResponse> ExecuteGet<TResponse>(IGetDataRequest request)
+        public async Task<TResponse> Execute<TResponse>(IGetDataRequest request)
         {
             var httpResponse = await _httpClient.GetAsync(request.RequestPath);
             var result = await httpResponse.Content.ReadAsStringAsync();
@@ -26,7 +26,7 @@ namespace Client.API.Services
             return JsonSerializer.Deserialize<TResponse>(result, _jsonOptions);
         }
 
-        public async Task<TResponse> ExecutePost<TRequestData, TResponse>(IPostDataRequest<TRequestData> request)
+        public async Task<TResponse> Execute<TRequestData, TResponse>(IPostDataRequest<TRequestData> request)
         {
             var jsonContent = JsonContent.Create(request.RequestData); 
 

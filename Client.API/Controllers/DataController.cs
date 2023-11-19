@@ -23,21 +23,21 @@ namespace Client.API.Controllers
         [Route("get-people-from-gateway")]
         public async Task<List<GenericKeyValuePair>> GetPeopleFromGateway()
         {
-            return await _client.ExecuteGet<List<GenericKeyValuePair>>(new GetPeopleLookupRequest());
+            return await _client.Execute<List<GenericKeyValuePair>>(new GetPeopleLookupRequest());
         }
 
         [HttpGet]
         [Route("get-categories")]
         public async Task<List<CategoryLookup>> GetCategoriesFromGateway()
         {
-            return await _client.ExecuteGet<List<CategoryLookup>>(new GetCategoriesLookupRequest());
+            return await _client.Execute<List<CategoryLookup>>(new GetCategoriesLookupRequest());
         }
 
         [HttpGet]
         [Route("get-calc-addition")]
         public async Task<int> GetCalculatorAddition()
         {
-            return await _client.ExecutePost<CalculatorAdditionRequest, int>(new GetCalculatorAdditionaRequest()
+            return await _client.Execute<CalculatorAdditionRequest, int>(new GetCalculatorAdditionaRequest()
             {
                 RequestData = new CalculatorAdditionRequest
                 {
